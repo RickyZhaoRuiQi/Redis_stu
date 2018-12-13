@@ -85,3 +85,75 @@
             3. 删除   del
             4. 扩展命令 incrby->将指定key对应的值增加指定数值 decrby append追加字符串
             5. 数值增减 incr(如果不存在，创建该key并将值设置为0，然后++，如果值无法++则抛出异常) decr
+    - 存储Hash
+        - String Key和String Value的map容器
+        - 每一个Hash可以存储4294967295个键值对
+        - 常用命令
+            1. 赋值   hset hmset(同时设置多个)
+            2. 取值   hget hmget mhgetall(得到某个hash中的所有键值对)
+            3. 删除   hdel：删除hash中的某个值 del：删除整个hash
+            4. 自学命令 hexists hash key：判断是否存在 hlen hash：判断长度  hkeys hash：得到所有属性名称 hvals：得到所有值
+            5. 增加数值 hincrby hdecrby
+    - 存储List
+        - ArrayList使用数组方式
+        - LikedList使用双向链接方式
+        - 双向链表中增加数据
+        - 双向链表中删除数据
+        - 常用命令
+            1. 两端添加 lpush list [values]：左添加 rpush list [values]：右添加
+            2. 查看列表 lrange list
+            3. 两端弹出 lpop list：左弹出 rpop list：右弹出
+            4. 获取列表元素个数 llen list
+            5. 扩展命令 lpushx list value：向list头部插入value rpush list value：向list尾部插入value    lrem list count value：删除count个value lset list index value：设置下表为index索引位置的值为value    linsert list [before|after] pivot value：在pivot之前之后插入value   rpoplpush list1 list2：弹出list1尾部的值并插入到list2头部
+    - 存储Set
+        - 和List类型不同的是，Set集合中不允许出现重复的元素
+        - Set可包含的最大元素数量4294967295
+        - 常用命令
+            1. 添加/删除元素  add set [values]：向set中添加 srem set [values]：从set中删除
+            2. 获得集合中的元素 smembers set：查看set中的元素  sismember set value：判断是否存在
+            3. 集合中的差集运算 sdiff set1 set2：求set1和set2的差集
+            4. 集合中的交集运算 sinter set1 set2：求set1和set2的交集
+            5. 集合中的并集运算 sunion set1 set2：求set1和set2并集
+            6. 扩展命令 scard set：得到集合中元素数量 srandmember set：得到set中一个随机元素    sdiffstore(sinterstore sunion) newset set1 set2：将set1和set2差（交、并）集存入newset
+        - 使用场景
+            - 跟踪一些**唯一性数据**
+            - 用于维护数据对象之间的关联关系
+    - 存储Sorted-Set
+        - 与Set区别是每个值都有一个权值进行排序
+        - 集合中位置有序，访问中间元素也是高效的
+        - 常用命令
+            1. 添加元素 zadd sorted-set [score value]：向有序集中添加权值为score的value 
+            2. 删除元素 zrem sorted-set [values]：删除 zremrangebyrank sorted-set start end：按照范围删除 zremrangebyscore sorted-set score1 score2：按照分数范围删除
+            3. 获得元素 zsore sorted-set value：获得value的分数   zcard sorted-set:获得集合数量
+            4. 范围查询 zrange sorted-set start end：查询  zreverange sorted-set start end：升序查询    
+            5. 扩展命令 limit start end： 限制显示   zincreby sorted-set number value：将value权值加number
+        - 使用场景
+            - 大型游戏在线积分排行榜
+            - 构建索引数据
+    - Keys通用操作
+        - keys * 查看所有key    keys m* 查看以m开头的key
+        - del [keys] 删除keys
+        - exists key 查看key是否存在
+        - rename key newkey 重命令
+        - expire key time 设置过期时间 单位s
+        - ttl key 查看剩余超时时间
+        - type key 获得key类型
+        
+ ---
+ 
+ - Redis特性
+    - 多数据库
+        - 最多16个数据库 select index切换数据库
+        - move key index 移动key到index数据库
+    - 支持事务
+        - multi：开启事务
+        - exec：提交
+        - discard：回滚
+    - Redis持久化
+        - RDB方式：默认支持，不同配置。在指定时间间隔内，将数据写入到磁盘
+        - AOF方式：以日志的形式存储每个操作，启动后读取日志构建数据
+        - 无持久化：
+        - RDB & AOF
+
+---
+    
